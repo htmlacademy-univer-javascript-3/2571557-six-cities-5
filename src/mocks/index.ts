@@ -1,4 +1,4 @@
-import { CityName, ICity, IOffer, IReview } from '../model';
+import { CityName, ICity, IOffer, IReview, RoomType } from '../model';
 
 
 export const CITY_MOCK: ICity = {
@@ -65,11 +65,11 @@ export const OFFERS_MOCK_DATA: IOffer[] = [
   {
     'id': '1',
     'title': 'Wood and stone place',
-    'type': 'house',
+    'type': RoomType.HOUSE,
     'price': 576,
     'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/14.jpg',
     'city': {
-      'name': 'Paris',
+      'name': CityName.PARIS,
       'location': {
         'latitude': 48.85661,
         'longitude': 2.351499,
@@ -88,11 +88,11 @@ export const OFFERS_MOCK_DATA: IOffer[] = [
   {
     'id': '2',
     'title': 'Penthouse, 4-5 rooms + 5 balconies',
-    'type': 'hotel',
+    'type': RoomType.HOTEL,
     'price': 493,
     'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/2.jpg',
     'city': {
-      'name': 'Paris',
+      'name': CityName.PARIS,
       'location': {
         'latitude': 48.85661,
         'longitude': 2.351499,
@@ -111,11 +111,11 @@ export const OFFERS_MOCK_DATA: IOffer[] = [
   {
     'id': '3',
     'title': 'Beautiful & luxurious apartment at great location',
-    'type': 'hotel',
+    'type': RoomType.HOUSE,
     'price': 438,
     'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/16.jpg',
     'city': {
-      'name': 'Paris',
+      'name': CityName.PARIS,
       'location': {
         'latitude': 48.85661,
         'longitude': 2.351499,
@@ -134,11 +134,11 @@ export const OFFERS_MOCK_DATA: IOffer[] = [
   {
     'id': '4',
     'title': 'Beautiful & luxurious apartment at great location',
-    'type': 'room',
+    'type': RoomType.ROOM,
     'price': 275,
     'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/18.jpg',
     'city': {
-      'name': 'Paris',
+      'name': CityName.PARIS,
       'location': {
         'latitude': 48.85661,
         'longitude': 2.351499,
@@ -159,11 +159,11 @@ export const OFFERS_NEIGHBOURHOOD_MOCK_DATA: IOffer[] = [
   {
     'id': '1',
     'title': 'Wood and stone place',
-    'type': 'house',
+    'type': RoomType.APARTMENT,
     'price': 999,
     'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/14.jpg',
     'city': {
-      'name': 'Paris',
+      'name': CityName.PARIS,
       'location': {
         'latitude': 48.85661,
         'longitude': 2.351499,
@@ -182,11 +182,11 @@ export const OFFERS_NEIGHBOURHOOD_MOCK_DATA: IOffer[] = [
   {
     'id': '2',
     'title': 'Penthouse, 4-5 rooms + 5 balconies',
-    'type': 'hotel',
+    'type': RoomType.HOTEL,
     'price': 444,
     'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/2.jpg',
     'city': {
-      'name': 'Paris',
+      'name': CityName.PARIS,
       'location': {
         'latitude': 48.85661,
         'longitude': 2.351499,
@@ -205,11 +205,11 @@ export const OFFERS_NEIGHBOURHOOD_MOCK_DATA: IOffer[] = [
   {
     'id': '3',
     'title': 'Beautiful & luxurious apartment at great location',
-    'type': 'hotel',
+    'type': RoomType.ROOM,
     'price': 123,
     'previewImage': 'https://14.design.htmlacademy.pro/static/hotel/16.jpg',
     'city': {
-      'name': 'Paris',
+      'name': CityName.PARIS,
       'location': {
         'latitude': 48.85661,
         'longitude': 2.351499,
