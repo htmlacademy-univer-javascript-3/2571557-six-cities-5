@@ -24,7 +24,7 @@ export const FavoritesPage = () => {
     });
     return Array.from(map);
   }, [offers]);
-  return (
+  return ( 
     <div className="page">
       <Header isAuth={auth === AuthState.AUTH} />
       <main className="page__main page__main--favorites">
