@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { changeSortingStrategy } from '../../store/action';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { SortingStrategy } from './sorting';
+import { useAppDispatch, useAppSelector } from '../../store';
+import { SortingStrategy } from '../../store/offer/sorting-strategy';
+import { selectCurrentSort } from '../../store/offer/selectors';
+import { changeSort } from '../../store/offer/action';
 
 export const SortingPanel = () => {
   const dispatch = useAppDispatch();
-  const { sortingStrategy } = useAppSelector((state) => state.offers);
+  const sortingStrategy = useAppSelector(selectCurrentSort);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   return (
     <form className="places__sorting" action="#" method="get">
@@ -25,7 +26,7 @@ export const SortingPanel = () => {
               tabIndex={0}
               onClick={() => {
                 setIsExpanded(false);
-                dispatch(changeSortingStrategy(strategy));
+                dispatch(changeSort(strategy));
               }}
             >
               { strategy }

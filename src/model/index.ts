@@ -36,6 +36,12 @@ export interface ICity {
   location: ILocation;
 }
 
+export interface IHost {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+}
+
 export interface IOffer {
   id: string;
   title: string;
@@ -46,7 +52,13 @@ export interface IOffer {
   location: ILocation;
   isFavorite: boolean;
   isPremium: boolean;
-  rating: Rating;
+  rating: number;
+  description: string;
+  bedrooms: number;
+  goods: string[];
+  host: IHost;
+  images: string[];
+  maxAdults: number;
 }
 
 export interface IUser {
@@ -54,6 +66,7 @@ export interface IUser {
   avatarUrl: string;
   isPro: boolean;
   email?: string;
+  token?: string;
 }
 
 export interface IReview {
@@ -62,4 +75,15 @@ export interface IReview {
   user: IUser;
   comment: string;
   rating: Rating;
+}
+
+export interface IAuth {
+  email: string;
+  password: string;
+}
+
+export interface IAddReview {
+  offerId: string;
+  comment: string;
+  rating: number;
 }
