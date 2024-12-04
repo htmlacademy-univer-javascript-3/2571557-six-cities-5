@@ -1,7 +1,10 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 
 import { Rating, RATING_TO_STRING } from '../../model';
 
+export interface ICommentSubmitProps {
+  onSubmit: (comment: IUserReview) => void;
+}
 
 export interface IUserReview {
   comment: string;
@@ -11,9 +14,19 @@ export interface IUserReview {
 const INITIAL_REVIEW: IUserReview = { comment: '', rating: 0 };
 const RATINGS: Rating[] = [ 1, 2, 3, 4, 5 ];
 
-export const Comment = () => {
+export const Comment = ({ onSubmit }: ICommentSubmitProps) => {
   const [isValid, setValid] = useState<boolean>(false);
   const [review, setReview] = useState<IUserReview>(INITIAL_REVIEW);
+
+  const handleCommentChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setReview((prev) => ({ ...prev, comment: e.target.value }));
+  }, []);
+
+  const handleSubmitChange = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    onSubmit(review);
+    setReview(INITIAL_REVIEW);
+  }, []);
 
   useEffect(() => {
     const isReviewValid = review.comment.length < 50 || review.comment.length > 300 || review.rating === 0;
@@ -62,9 +75,7 @@ export const Comment = () => {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={review.comment}
-        onChange={(e) => {
-          setReview((prev) => ({ ...prev, comment: e.target.value }));
-        }}
+        onChange={handleCommentChange}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -76,10 +87,7 @@ export const Comment = () => {
           className="reviews__submit form__submit button"
           type="submit"
           disabled={!isValid}
-          onClick={(e) => {
-            e.preventDefault();
-            setReview(INITIAL_REVIEW);
-          }}
+          onClick={handleSubmitChange}
         >
           Submit
         </button>

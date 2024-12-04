@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { layerGroup, Marker } from 'leaflet';
 
 import leaflet from 'leaflet';
@@ -6,8 +6,6 @@ import 'leaflet/dist/leaflet.css';
 
 import { ICity, IOffer } from '../../model';
 import { useMap } from '../../hooks/map';
-import { CITIES_MOCK } from '../../mocks';
-import { useAppSelector } from '../../store/hooks';
 
 const DEFAULT_CUSTOM_ICON = leaflet.icon({
   iconUrl: '/img/pin.svg',
@@ -24,13 +22,12 @@ const CURRENT_CUSTOM_ICON = leaflet.icon({
 interface ICityMapProps {
   offers: IOffer[];
   selectedOfferId?: string;
+  city: ICity;
 }
 
-export const CityMap = ({ offers, selectedOfferId }: ICityMapProps) => {
+export const CityMap = ({ offers, selectedOfferId, city }: ICityMapProps) => {
   const mapRef = useRef(null);
-  const { cityName } = useAppSelector((state) => state.offers);
-  const activeCity = useMemo(() => CITIES_MOCK.find((city) => city.name === cityName) as ICity, [ cityName ]);
-  const map = useMap(mapRef, activeCity);
+  const map = useMap(mapRef, city);
 
   useEffect(() => {
     if (map) {

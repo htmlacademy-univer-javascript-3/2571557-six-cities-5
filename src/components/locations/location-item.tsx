@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 
-import { useAppSelector } from '../../store/hooks';
 import { CityName } from '../../model';
+import { useAppSelector } from '../../store';
+import { currentCitySelector } from '../../store/offer/selectors'; 
 
 export interface ILocationProps {
   cityName: CityName;
@@ -9,12 +10,12 @@ export interface ILocationProps {
 }
 
 export const LocationItem = ({ cityName, onClickLocationHandler }: ILocationProps) => {
-  const { cityName: activeCityName } = useAppSelector((state) => state.offers);
+  const city = useAppSelector(currentCitySelector);
 
   return (
     <li className="locations__item">
       <Link to={'#'} className={`locations__item-link tabs__item 
-        ${activeCityName === cityName ? 'tabs__item--active' : ''}`} onClick={onClickLocationHandler}
+        ${city === cityName ? 'tabs__item--active' : ''}`} onClick={onClickLocationHandler}
       >
         {cityName}
       </Link>
