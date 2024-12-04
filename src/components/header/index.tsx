@@ -43,7 +43,7 @@ export const Header = ({ isAuth, user }: IHeaderProps) => {
                       {user?.email} Oliver.conner@gmail.com
                     </span>
                     <span className="header__favorite-count">3</span>
-                  </Link>
+                  </Link> 
                 </li>
               )}
               <li className="header__nav-item">
