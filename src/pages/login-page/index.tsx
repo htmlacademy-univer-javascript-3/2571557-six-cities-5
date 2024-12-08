@@ -6,6 +6,7 @@ import { AppRoutes, AuthState } from '../routes';
 import { useCallback, useRef } from 'react';
 import { useAppDispatch } from '../../store';
 import { login } from '../../store/user/action';
+import { IAuth } from '../../model';
 
 export const LoginPage = () => {
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -15,12 +16,12 @@ export const LoginPage = () => {
     event.preventDefault();
     if (formRef && formRef.current) {
       const formData = new FormData(formRef.current);
-      const authData = Object.fromEntries(formData) as any;
+      const authData = Object.fromEntries(formData) as IAuth;
       dispatch(
         login(authData)
       );
     }
-  }, []);
+  }, [dispatch]);
   if (auth === AuthState.AUTH) {
     return <Navigate to={AppRoutes.MAIN} />;
   }
@@ -85,5 +86,5 @@ export const LoginPage = () => {
         </div>
       </main>
     </div>
-  )
+  );
 };

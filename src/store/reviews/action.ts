@@ -12,7 +12,7 @@ export const fetchReviews = createAsyncThunk<void, string,
     extra: AxiosInstance;
   }
 >(
- 'review/fetchReviews',
+  'review/fetchReviews',
   async (offerId, { dispatch, extra: api }) => {
     const { data } = await api.get<IReview[]>(`${ApiRoutes.GET_REVIEWS}/${offerId}`);
     dispatch(setReviewsOnPage(data));

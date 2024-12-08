@@ -24,7 +24,7 @@ export const FavoritesPage = () => {
     });
     return Array.from(map);
   }, [offers]);
-  return ( 
+  return (
     <div className="page">
       <Header isAuth={auth === AuthState.AUTH} />
       <main className="page__main page__main--favorites">
@@ -32,7 +32,7 @@ export const FavoritesPage = () => {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {grouped.map(([name, offers]) => (
+              {grouped.map(([name, groupedOffers]) => (
                 <li className="favorites__locations-items" key={name}>
                   <div className="favorites__locations locations locations--current">
                     <div className="locations__item">
@@ -42,7 +42,7 @@ export const FavoritesPage = () => {
                     </div>
                   </div>
                   <div className="favorites__places">
-                    {offers.map((offer) => (<Offer block='favorites' offer={offer} key={offer.id} />))}
+                    {groupedOffers.map((offer) => (<Offer block='favorites' offer={offer} key={offer.id} />))}
                   </div>
                 </li>)
               )}

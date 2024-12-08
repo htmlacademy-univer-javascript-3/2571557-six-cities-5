@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useMemo, useEffect, useCallback } from 'react';
 
 import { useAppSelector, useAppDispatch } from '../../store';
@@ -28,11 +28,13 @@ export const OfferPage = () => {
   const authorizationStatus = useAppSelector(authSelector);
   const dispatch = useAppDispatch();
   const onSubmitHandler = useCallback(({ comment, rating }: IUserReview) => {
-    offerId && dispatch(addReview({ comment, rating, offerId }));
-  }, []);
+    if (offerId) {
+      dispatch(addReview({ comment, rating, offerId }));
+    }
+  }, [ offerId, dispatch ]);
   useEffect(() => {
     dispatch(fetchOfferById(offerId ?? ''));
-  }, [offerId]);
+  }, [ offerId, dispatch ]);
   if (!offerOnPage) {
     return <Spinner />;
   }

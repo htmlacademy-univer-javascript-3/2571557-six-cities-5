@@ -4,12 +4,12 @@ import { SortingStrategy, sortOffers } from './sorting-strategy';
 import { CityName, IOffer } from '../../model';
 
 export interface IOfferStoreState {
-  city: CityName,
-  offers: IOffer[],
-  nearOffers: IOffer[],
-  sortingStrategy: SortingStrategy,
-  isLoading: boolean,
-  selectedOffer: IOffer | null
+  city: CityName;
+  offers: IOffer[];
+  nearOffers: IOffer[];
+  sortingStrategy: SortingStrategy;
+  isLoading: boolean;
+  selectedOffer: IOffer | null;
 }
 
 const initialState: IOfferStoreState = {

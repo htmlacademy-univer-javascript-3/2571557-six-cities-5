@@ -1,4 +1,4 @@
-import { createBrowserHistory } from "history";
+import { createBrowserHistory } from 'history';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { Middleware } from 'redux';
 

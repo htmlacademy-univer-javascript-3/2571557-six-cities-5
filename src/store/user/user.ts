@@ -4,7 +4,7 @@ import { AuthState } from '../../pages';
 
 export interface IUserStoreState {
   authStatus: AuthState;
-};
+}
 
 const initialState: IUserStoreState = {
   authStatus: AuthState.AUTH
