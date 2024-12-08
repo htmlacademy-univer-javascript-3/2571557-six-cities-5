@@ -14,13 +14,16 @@ export const LoginPage = () => {
   const onSubmitHandler = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     if (formRef && formRef.current) {
-      const formData = new FormData(formRef.current);
-      const authData = Object.fromEntries(formData) as any;
+      const formData = Object.fromEntries(new FormData(formRef.current));
+      const authData = { 
+        email: formData['email'].toString(), 
+        password: formData['password'].toString() 
+      };
       dispatch(
         login(authData)
       );
     }
-  }, []);
+  }, [dispatch]);
   if (auth === AuthState.AUTH) {
     return <Navigate to={AppRoutes.MAIN} />;
   }
@@ -85,5 +88,5 @@ export const LoginPage = () => {
         </div>
       </main>
     </div>
-  )
+  );
 };

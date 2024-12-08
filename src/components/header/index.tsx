@@ -1,14 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-import { IUser } from "../../model";
-import { useAppDispatch } from "../../store";
-import { AppRoutes } from "../../pages";
+import { IUser } from '../../model';
+import { useAppDispatch } from '../../store';
+import { AppRoutes } from '../../pages';
 
-import { logout } from "../../store/user/action";
+import { logout } from '../../store/user/action';
 
 export interface IHeaderProps {
   isAuth: boolean;
-  user?: IUser
+  user?: IUser;
 }
 
 export const Header = ({ isAuth, user }: IHeaderProps) => {
@@ -43,7 +43,7 @@ export const Header = ({ isAuth, user }: IHeaderProps) => {
                       {user?.email} Oliver.conner@gmail.com
                     </span>
                     <span className="header__favorite-count">3</span>
-                  </Link> 
+                  </Link>
                 </li>
               )}
               <li className="header__nav-item">
@@ -52,14 +52,15 @@ export const Header = ({ isAuth, user }: IHeaderProps) => {
                     <span className="header__nav-link" style={{ cursor: 'pointer' }} onClick={(event) => {
                       event.preventDefault();
                       dispatch(logout());
-                    }}>
+                    }}
+                    >
                       <span className="header__signout">Log Out</span>
                     </span>
-                    ) : (
-                      <Link className="header__nav-link" to={AppRoutes.LOGIN}>
-                        <span className="header__signout">Sign in</span>
-                      </Link>
-                    )
+                  ) : (
+                    <Link className="header__nav-link" to={AppRoutes.LOGIN}>
+                      <span className="header__signout">Sign in</span>
+                    </Link>
+                  )
                 }
 
               </li>
@@ -69,4 +70,4 @@ export const Header = ({ isAuth, user }: IHeaderProps) => {
       </div>
     </header>
   );
-}
+};

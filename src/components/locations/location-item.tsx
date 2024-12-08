@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { CityName } from '../../model';
 import { useAppSelector } from '../../store';
-import { currentCitySelector } from '../../store/offer/selectors'; 
+import { currentCitySelector } from '../../store/offer/selectors';
 
 export interface ILocationProps {
   cityName: CityName;

@@ -26,7 +26,7 @@ export const Comment = ({ onSubmit }: ICommentSubmitProps) => {
     e.preventDefault();
     onSubmit(review);
     setReview(INITIAL_REVIEW);
-  }, []);
+  }, [onSubmit, review]);
 
   useEffect(() => {
     const isReviewValid = review.comment.length < 50 || review.comment.length > 300 || review.rating === 0;

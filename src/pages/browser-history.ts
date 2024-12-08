@@ -1,10 +1,10 @@
-import { createBrowserHistory } from "history";
+import { createBrowserHistory } from 'history';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { Middleware } from 'redux';
 
 export const browserHistory = createBrowserHistory();
 
-export const redirect: Middleware<unknown, ReducerType> =
+export const redirect: Middleware =
   () =>
     (next) =>
       (action: PayloadAction<string>) => {

@@ -15,9 +15,9 @@ export const App = () => {
   const auth = useAppSelector(authSelector);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(checkAuth())
-    dispatch(fetchOffers())
-  }, []);
+    dispatch(checkAuth());
+    dispatch(fetchOffers());
+  }, [dispatch]);
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>
