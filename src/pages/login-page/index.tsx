@@ -6,7 +6,6 @@ import { AppRoutes, AuthState } from '../routes';
 import { useCallback, useRef } from 'react';
 import { useAppDispatch } from '../../store';
 import { login } from '../../store/user/action';
-import { IAuth } from '../../model';
 
 export const LoginPage = () => {
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -15,8 +14,11 @@ export const LoginPage = () => {
   const onSubmitHandler = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     if (formRef && formRef.current) {
-      const formData = new FormData(formRef.current);
-      const authData = Object.fromEntries(formData) as IAuth;
+      const formData = Object.fromEntries(new FormData(formRef.current));
+      const authData = { 
+        email: formData['email'].toString(), 
+        password: formData['password'].toString() 
+      };
       dispatch(
         login(authData)
       );
