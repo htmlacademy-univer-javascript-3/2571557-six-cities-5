@@ -8,10 +8,14 @@ export type ErrorMessageType = {
   message: string;
 }
 
-const BAD_STATUS_CODES_ARRAY: StatusCodes[] = [
-  StatusCodes.BAD_REQUEST,
-  StatusCodes.UNAUTHORIZED,
-  StatusCodes.NOT_FOUND
+const BAD_STATUS_CODES_ARRAY: string[] = [
+  StatusCodes.BAD_REQUEST.toString(),
+  StatusCodes.UNAUTHORIZED.toString(),
+  StatusCodes.BAD_GATEWAY.toString(),
+  StatusCodes.INTERNAL_SERVER_ERROR.toString(),
+  'ERR_NETWORK',
+  'ERR_BAD_REQUEST',
+  'ECONNABORTED'
 ];
 
 export const API_URL = 'https://14.design.htmlacademy.pro/six-cities';
@@ -37,8 +41,8 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error: AxiosError<ErrorMessageType>) => {
-    if (error.response && BAD_STATUS_CODES_ARRAY.includes(error.response.status)) {
-      toast.warn(error.response?.data?.message || 'Unknown error');
+    if (error.code && BAD_STATUS_CODES_ARRAY.includes(error.code)) {
+      toast.warn('ERRORS WITH SERVER',{position:'top-left', autoClose: 3000});
     }
 
     throw error;
@@ -49,5 +53,6 @@ export enum ApiRoutes {
   LOGIN = '/login',
   LOGOUT = '/logout',
   OFFERS = '/offers',
-  GET_REVIEWS = '/comments'
+  GET_REVIEWS = '/comments',
+  GET_FAVORITES = '/favorite'
 }

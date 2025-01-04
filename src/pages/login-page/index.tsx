@@ -15,9 +15,9 @@ export const LoginPage = () => {
     event.preventDefault();
     if (formRef && formRef.current) {
       const formData = Object.fromEntries(new FormData(formRef.current));
-      const authData = { 
-        email: formData['email'].toString(), 
-        password: formData['password'].toString() 
+      const authData = {
+        email: formData['email'].toString(),
+        password: formData['password'].toString()
       };
       dispatch(
         login(authData)

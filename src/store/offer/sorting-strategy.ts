@@ -7,6 +7,11 @@ export enum SortingStrategy {
   TOP_RATED_FIRST = 'Top rated first'
 }
 
+export interface IChangeFavorite {
+  offerId: string;
+  inFavorite: boolean;
+}
+
 export const SORTING_STRATEGIES: Record<SortingStrategy, (a: IOffer, b: IOffer) => number> = {
   [SortingStrategy.POPULAR]: () => 0, // no sort
   [SortingStrategy.PRICE_LOW_TO_HIGH]: (a, b) => a.price - b.price,

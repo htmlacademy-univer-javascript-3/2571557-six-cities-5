@@ -19,11 +19,14 @@ import { OfferGallery } from '../../components/offer-gallery';
 import { OfferDetails } from '../../components/offers/offer-details';
 import { Header } from '../../components/header';
 
+const MAX_IMAGES_COUNT = 6;
+const MAX_NEAR_OFFERS_COUNT = 3;
+
 export const OfferPage = () => {
   const { id: offerId } = useParams();
   const nearOffers = useAppSelector(nearOffersSelector);
   const offerOnPage = useAppSelector(offerOnPageSelector);
-  const offersForMap = useMemo(() => nearOffers.concat(offerOnPage || []), [nearOffers, offerOnPage]);
+  const offersForMap = useMemo(() => nearOffers.slice(0, MAX_NEAR_OFFERS_COUNT).concat(offerOnPage || []), [nearOffers, offerOnPage]);
   const reviews = useAppSelector(reviewsSelector);
   const authorizationStatus = useAppSelector(authSelector);
   const dispatch = useAppDispatch();
@@ -43,7 +46,7 @@ export const OfferPage = () => {
       <Header isAuth={authorizationStatus === AuthState.AUTH} />
       <main className="page__main page__main--offer">
         <section className="offer">
-          <OfferGallery images={offerOnPage.images.slice(0, 5)} />
+          <OfferGallery images={offerOnPage.images.slice(0, MAX_IMAGES_COUNT)} />
           <OfferDetails offer={offerOnPage}>
             <section className="offer__reviews reviews">
               <h2 className="reviews__title">
