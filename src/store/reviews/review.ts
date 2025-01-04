@@ -1,13 +1,17 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setReviewsOnPage } from './action';
+import { addReview, setReviewsOnPage } from './action';
 import { IReview } from '../../model';
 
 export interface IReviewStoreState {
   reviews: IReview[];
+  isLoading: boolean;
+  isError: boolean;
 }
 
 const initialState: IReviewStoreState = {
   reviews: [],
+  isLoading: false,
+  isError: false
 };
 
 export const reviewsReducer = createReducer(initialState, (builder)=>{
@@ -17,5 +21,15 @@ export const reviewsReducer = createReducer(initialState, (builder)=>{
       arrayForResolve.sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1));
       state.reviews = arrayForResolve.slice(0, 10);
     }
-  });
+  })
+    .addCase(addReview.pending, (state) => {
+      state.isLoading = true;
+    })
+    .addCase(addReview.rejected, (state) => {
+      state.isError = true;
+      state.isLoading = false;
+    })
+    .addCase(addReview.fulfilled, (state) => {
+      state.isLoading = false;
+    });
 });

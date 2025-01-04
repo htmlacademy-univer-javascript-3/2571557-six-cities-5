@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, changeSort, fillOffers, setNearOffer, setCurrentOffer, setOffersDateIsLoading } from './action';
+import { changeCity, changeSort, fillOffers, setNearOffer, setCurrentOffer, setOffersDateIsLoading, setFavorites } from './action';
 import { SortingStrategy, sortOffers } from './sorting-strategy';
 import { CityName, IOffer } from '../../model';
 
@@ -10,18 +10,20 @@ export interface IOfferStoreState {
   sortingStrategy: SortingStrategy;
   isLoading: boolean;
   selectedOffer: IOffer | null;
+  favorites: IOffer[];
 }
 
-const initialState: IOfferStoreState = {
+const INITIAL_STATE: IOfferStoreState = {
   city: CityName.PARIS,
   offers: [],
   nearOffers: [],
   sortingStrategy: SortingStrategy.POPULAR,
   isLoading: false,
-  selectedOffer: null
+  selectedOffer: null,
+  favorites: []
 };
 
-export const offersReducer = createReducer(initialState, (builder) => {
+export const offersReducer = createReducer(INITIAL_STATE, (builder) => {
   builder.addCase(changeCity, (state, { payload }) => {
     state.city = payload;
   }).addCase(fillOffers, (state, { payload }) => {
@@ -33,7 +35,9 @@ export const offersReducer = createReducer(initialState, (builder) => {
     state.isLoading = payload;
   }).addCase(setCurrentOffer, (state, { payload }) => {
     state.selectedOffer = payload;
-  }).addCase(setNearOffer,(state,{payload})=>{
+  }).addCase(setNearOffer,(state, { payload })=>{
     state.nearOffers = payload;
+  }).addCase(setFavorites,(state, { payload })=> {
+    state.favorites = payload;
   });
 });

@@ -4,6 +4,8 @@ import { AxiosInstance } from 'axios';
 import { IAddReview, IReview } from '../../model';
 import { ApiRoutes } from '../../shared/api/api';
 
+export const setIsLoadingReview = createAction<boolean>('review/setIsLoadingReview');
+export const setIsErrorReview = createAction<boolean>('review/setIsErrorReview');
 export const setReviewsOnPage = createAction<IReview[]>('review/setReviewsOnPage');
 export const fetchReviews = createAsyncThunk<void, string,
   {
@@ -28,7 +30,12 @@ export const addReview = createAsyncThunk<
 >(
   'review/addReview',
   async ({ comment, rating, offerId }, { dispatch, extra: api }) => {
-    await api.post<IReview>(`${ApiRoutes.GET_REVIEWS}/${offerId}`, { comment, rating });
-    dispatch(fetchReviews(offerId));
+    try {
+      dispatch(setIsLoadingReview(true));
+      await api.post<IReview>(`${ApiRoutes.GET_REVIEWS}/${offerId}`, { comment, rating });
+      dispatch(fetchReviews(offerId));
+    } finally {
+      dispatch(setIsLoadingReview(false));
+    }
   },
 );

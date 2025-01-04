@@ -1,6 +1,11 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../type';
 
+export const favoritesSelector = createSelector(
+  [(state: RootState) => state.offer.favorites],
+  (items) => items
+);
+
 export const selectCurrentSort = createSelector(
   [(state: RootState) => state.offer.sortingStrategy],
   (items) => items
