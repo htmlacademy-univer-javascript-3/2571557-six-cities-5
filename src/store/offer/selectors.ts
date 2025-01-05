@@ -1,6 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../type';
 
+import { MAX_NEAR_OFFERS_AMOUNT } from '../const';
+
 export const favoritesSelector = createSelector(
   [(state: RootState) => state.offer.favorites],
   (items) => items
@@ -23,7 +25,7 @@ export const offerOnPageSelector = createSelector(
 
 export const nearOffersSelector = createSelector(
   [(state: RootState) => state.offer.nearOffers],
-  (items) => items
+  (items) => items.slice(0, MAX_NEAR_OFFERS_AMOUNT)
 );
 
 export const currentCitySelector = createSelector(

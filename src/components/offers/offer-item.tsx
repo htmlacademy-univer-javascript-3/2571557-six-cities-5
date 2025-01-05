@@ -1,15 +1,17 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { IOffer } from '../../model';
 import { Favorite } from '../favorite';
-import { BlockType, SIZE_BY_BLOCKS } from './const';
+import { BlockType, SIZE_BY_BLOCKS, RATING_LENGTH } from './const';
 
 export interface IOfferProps {
   offer: IOffer;
   block: BlockType;
   offerSelected?: (id: string) => void;
+  isNeedChangeFavoriteStatusForward: boolean;
 }
 
-export const Offer = ({ offer, block, offerSelected }: IOfferProps) => (
+const OfferImpl = ({ offer, block, offerSelected, isNeedChangeFavoriteStatusForward = false }: IOfferProps) => (
   <article className={`${block}__card place-card`}
     onMouseEnter={() => {
       offerSelected?.(offer.id);
@@ -24,14 +26,14 @@ export const Offer = ({ offer, block, offerSelected }: IOfferProps) => (
       </div>
     )}
     <div className={`${block}__image-wrapper place-card__image-wrapper`}>
-      <a href="#">
+      <Link to="#">
         <img
           className="place-card__image"
           src={offer.previewImage}
           {...SIZE_BY_BLOCKS[block]}
           alt="Place image"
         />
-      </a>
+      </Link>
     </div>
     <div className={`${block}__card-info place-card__info`}>
       <div className="place-card__price-wrapper">
@@ -39,11 +41,11 @@ export const Offer = ({ offer, block, offerSelected }: IOfferProps) => (
           <b className="place-card__price-value">€{offer.price}</b>
           <span className="place-card__price-text">/&nbsp;night</span>
         </div>
-        <Favorite offer={offer}/>
+        <Favorite block='place-card__bookmark' offer={offer} isChangeOnlyInList={isNeedChangeFavoriteStatusForward}/>
       </div>
       <div className="place-card__rating rating">
         <div className="place-card__stars rating__stars">
-          <span style={{ width: `${offer.rating * 20}%` }} />
+          <span style={{ width: `${offer.rating * RATING_LENGTH}%` }} />
           <span className="visually-hidden">Rating</span>
         </div>
       </div>
@@ -54,3 +56,5 @@ export const Offer = ({ offer, block, offerSelected }: IOfferProps) => (
     </div>
   </article>
 );
+
+export const Offer = memo(OfferImpl);

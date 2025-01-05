@@ -87,3 +87,8 @@ export interface IAddReview {
   comment: string;
   rating: number;
 }
+
+export enum AuthState {
+  UNKNOWN,
+  KNOWN
+}

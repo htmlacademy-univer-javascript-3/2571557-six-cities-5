@@ -1,17 +1,16 @@
 import { Link, Navigate } from 'react-router-dom';
-import { useAppSelector } from '../../store';
-import { authSelector } from '../../store/user/selectors';
-import { AppRoutes, AuthState } from '../routes';
+import { AppRoutes } from '../routes';
 
 import { useCallback, useRef } from 'react';
-import { useAppDispatch } from '../../store';
+import { useAppDispatch, useAppSelector } from '../../store';
 import { login } from '../../store/user/action';
+import { userSelector } from '../../store/user/selectors';
 
 export const LoginPage = () => {
   const formRef = useRef<HTMLFormElement | null>(null);
-  const auth = useAppSelector(authSelector);
+  const user = useAppSelector(userSelector);
   const dispatch = useAppDispatch();
-  const onSubmitHandler = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleFormSubmit = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     if (formRef && formRef.current) {
       const formData = Object.fromEntries(new FormData(formRef.current));
@@ -24,7 +23,7 @@ export const LoginPage = () => {
       );
     }
   }, [dispatch]);
-  if (auth === AuthState.AUTH) {
+  if (!!user) {
     return <Navigate to={AppRoutes.MAIN} />;
   }
   return (
@@ -70,10 +69,11 @@ export const LoginPage = () => {
                   type="password"
                   name="password"
                   placeholder="Password"
+                  pattern="^(?=.*[a-zA-Z])(?=.*\d).+$"
                   required={false}
                 />
               </div>
-              <button className="login__submit form__submit button" type="submit" onClick={onSubmitHandler}>
+              <button className="login__submit form__submit button" type="submit" onClick={handleFormSubmit}>
                 Sign in
               </button>
             </form>

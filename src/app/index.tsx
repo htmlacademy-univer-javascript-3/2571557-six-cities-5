@@ -5,19 +5,25 @@ import { AppRoutes, NotFoundPage, LoginPage, MainPage, OfferPage, FavoritesPage 
 import { HistoryRouter } from '../pages/history-route';
 import { browserHistory } from '../pages/browser-history';
 import { useAppDispatch, useAppSelector } from '../store';
-import { authSelector } from '../store/user/selectors';
 import { useEffect } from 'react';
+import { Spinner } from '../components/spinner';
 
 import { checkAuth } from '../store/user/action';
 import { fetchOffers } from '../store/offer/action';
+import { AuthState } from '../model';
+import { authSelector, userSelector } from '../store/user/selectors';
 
 export const App = () => {
-  const auth = useAppSelector(authSelector);
   const dispatch = useAppDispatch();
+  const user = useAppSelector(userSelector);
+  const auth = useAppSelector(authSelector);
   useEffect(() => {
     dispatch(checkAuth());
     dispatch(fetchOffers());
-  }, [dispatch]);
+  }, [ dispatch ]);
+  if (auth === AuthState.UNKNOWN) {
+    return <Spinner />;
+  }
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>
@@ -26,7 +32,7 @@ export const App = () => {
         <Route
           path={AppRoutes.FAVORITES}
           element={
-            <PrivateRoute auth={auth}>
+            <PrivateRoute user={user}>
               <FavoritesPage />
             </PrivateRoute>
           }

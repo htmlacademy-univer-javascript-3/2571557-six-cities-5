@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { changeAuthStatus, setUser } from './action';
-import { AuthState } from '../../pages';
+import { AuthState } from '../../model';
 import { IUser } from '../../model';
 
 export interface IUserStoreState {
@@ -9,14 +9,14 @@ export interface IUserStoreState {
 }
 
 const initialState: IUserStoreState = {
-  authStatus: AuthState.NOT_AUTH,
+  authStatus: AuthState.UNKNOWN,
   user: null
 };
 
 export const userReducer = createReducer(initialState, (builder) => {
   builder.addCase(changeAuthStatus,(state, { payload })=> {
     state.authStatus = payload;
-  }).addCase(setUser, (state,{ payload })=> {
+  }).addCase(setUser, (state, { payload }) => {
     state.user = payload;
   });
 });

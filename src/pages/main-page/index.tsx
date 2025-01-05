@@ -7,12 +7,11 @@ import { CityMap } from '../../components/city-map';
 import { currentCitySelector, offersSelector } from '../../store/offer/selectors';
 import { IOffer } from '../../model';
 import { useAppSelector } from '../../store';
-import { authSelector } from '../../store/user/selectors';
 import { Header } from '../../components/header';
-import { AuthState } from '../routes';
+import { userSelector } from '../../store/user/selectors';
 
 export const MainPage = () => {
-  const auth = useAppSelector(authSelector);
+  const user = useAppSelector(userSelector);
   const offers = useAppSelector(offersSelector);
   const city = useAppSelector(currentCitySelector);
   const offersForActiveCity = useMemo(() => offers.filter((el: IOffer) => el.city.name === city), [city, offers]);
@@ -22,7 +21,7 @@ export const MainPage = () => {
   },[]);
   return (
     <div className="page page--gray page--main">
-      <Header isAuth={auth === AuthState.AUTH} />
+      <Header user={user} />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
@@ -34,7 +33,7 @@ export const MainPage = () => {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offersForActiveCity.length} places to stay in {city}</b>
               <SortingPanel />
-              <Offers block='cities' offers={offersForActiveCity} offerSelected={onActiveOfferChangeCallback}/>
+              <Offers block='cities' offers={offersForActiveCity} offerSelectedCallback={onActiveOfferChangeCallback}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
