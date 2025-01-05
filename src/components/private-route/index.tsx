@@ -10,5 +10,5 @@ interface PrivateRouteProps {
 export const PrivateRoute = (props: PrivateRouteProps) => {
   const { children, user } = props;
 
-  return !!user ? children : <Navigate to={AppRoutes.NOT_FOUND} />;
+  return user ? children : <Navigate to={AppRoutes.NOT_FOUND} />;
 };
