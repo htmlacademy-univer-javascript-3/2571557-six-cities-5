@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { addReview, setReviewsOnPage } from './action';
+import { addReview, setIsLoadingReview, setReviewsOnPage } from './action';
 import { IReview } from '../../model';
 
 export interface IReviewStoreState {
@@ -31,5 +31,8 @@ export const reviewsReducer = createReducer(initialState, (builder)=>{
     })
     .addCase(addReview.fulfilled, (state) => {
       state.isLoading = false;
+    })
+    .addCase(setIsLoadingReview, (state, { payload }) => {
+      state.isLoading = payload;
     });
 });

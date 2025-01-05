@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, changeSort, fillOffers, setNearOffer, setCurrentOffer, setOffersDateIsLoading, setFavorites } from './action';
+import { changeCity, changeSort, setOffers, setNearOffer, setCurrentOffer, setOffersDateIsLoading, setFavorites, changeStatusOfCurrFavorite } from './action';
 import { SortingStrategy, sortOffers } from './sorting-strategy';
 import { CityName, IOffer } from '../../model';
 
@@ -26,7 +26,7 @@ const INITIAL_STATE: IOfferStoreState = {
 export const offersReducer = createReducer(INITIAL_STATE, (builder) => {
   builder.addCase(changeCity, (state, { payload }) => {
     state.city = payload;
-  }).addCase(fillOffers, (state, { payload }) => {
+  }).addCase(setOffers, (state, { payload }) => {
     state.offers = payload;
   }).addCase(changeSort,(state, { payload }) => {
     state.sortingStrategy = payload;
@@ -39,5 +39,10 @@ export const offersReducer = createReducer(INITIAL_STATE, (builder) => {
     state.nearOffers = payload;
   }).addCase(setFavorites,(state, { payload })=> {
     state.favorites = payload;
+  }).addCase(changeStatusOfCurrFavorite,(state, { payload })=> {
+    const near = state.nearOffers.find((el) => el.id === payload.id);
+    if (near) {
+      near.isFavorite = !near?.isFavorite;
+    }
   });
 });

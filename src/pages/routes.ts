@@ -6,8 +6,3 @@ export enum AppRoutes {
   OFFER = '/offer/:id',
   NOT_FOUND = '/notFound'
 }
-
-export enum AuthState {
-  AUTH,
-  NOT_AUTH,
-}

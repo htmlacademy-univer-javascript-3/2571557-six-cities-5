@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, memo } from 'react';
 import { layerGroup, Marker } from 'leaflet';
 
 import leaflet from 'leaflet';
@@ -25,7 +25,7 @@ interface ICityMapProps {
   city: ICity;
 }
 
-export const CityMap = ({ offers, selectedOfferId, city }: ICityMapProps) => {
+const CityMapImpl = ({ offers, selectedOfferId, city }: ICityMapProps) => {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -60,3 +60,5 @@ export const CityMap = ({ offers, selectedOfferId, city }: ICityMapProps) => {
     </div>
   );
 };
+
+export const CityMap = memo(CityMapImpl);

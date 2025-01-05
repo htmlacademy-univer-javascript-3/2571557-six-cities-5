@@ -3,7 +3,7 @@ import { Fragment, useCallback, useEffect, useState } from 'react';
 import { Rating, RATING_TO_STRING } from '../../model';
 
 export interface ICommentSubmitProps {
-  onSubmit: (comment: IUserReview) => void;
+  onSubmitCallback: (comment: IUserReview) => void;
 }
 
 export interface IUserReview {
@@ -14,7 +14,7 @@ export interface IUserReview {
 const INITIAL_REVIEW: IUserReview = { comment: '', rating: 0 };
 const RATINGS: Rating[] = [ 1, 2, 3, 4, 5 ];
 
-export const Comment = ({ onSubmit }: ICommentSubmitProps) => {
+export const Comment = ({ onSubmitCallback: onSubmit }: ICommentSubmitProps) => {
   const [isValid, setValid] = useState<boolean>(false);
   const [review, setReview] = useState<IUserReview>(INITIAL_REVIEW);
 

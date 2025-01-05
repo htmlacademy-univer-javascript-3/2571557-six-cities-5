@@ -6,18 +6,19 @@ import { AxiosInstance } from 'axios';
 import { IOffer } from '../../model';
 
 import { redirectToRoute } from '../user/action';
-import { fetchReviews } from '../reviews/action';
 import { CityName } from '../../model';
 import { AppRoutes } from '../../pages';
 import { ApiRoutes } from '../../shared/api/api';
 
 export const changeCity = createAction<CityName>('offer/changeCity');
-export const fillOffers = createAction<IOffer[]>('offer/fillOffers');
+export const setOffers = createAction<IOffer[]>('offer/setOffers');
 export const setCurrentOffer = createAction<IOffer | null>('offer/setCurrentOffer');
 export const setNearOffer = createAction<IOffer[]>('offer/setNearOffer');
 export const changeSort = createAction<SortingStrategy>('offer/changeSort');
 export const setOffersDateIsLoading = createAction<boolean>('offer/setOffersDateIsLoading');
 export const setFavorites = createAction<IOffer[]>('favorite/setFavorites');
+export const changeStatusOfCurrFavorite = createAction<IOffer>('favorite/changeStatusOfCurrFavorite');
+
 export const fetchOffers = createAsyncThunk<void, undefined,
   {
     dispatch: AppDispatch;
@@ -30,7 +31,7 @@ export const fetchOffers = createAsyncThunk<void, undefined,
       dispatch(setOffersDateIsLoading(true));
       const { data } = await api.get<IOffer[]>(ApiRoutes.OFFERS);
       dispatch(setOffersDateIsLoading(false));
-      dispatch(fillOffers(data));
+      dispatch(setOffers(data));
     },
   );
 
@@ -61,8 +62,6 @@ export const fetchOfferById = createAsyncThunk<void, string,
         dispatch(setOffersDateIsLoading(true));
         const { data } = await api.get<IOffer>(`${ApiRoutes.OFFERS}/${offerId}`);
         dispatch(setCurrentOffer(data));
-        dispatch(fetchNearOffersById(offerId));
-        dispatch(fetchReviews(offerId));
       } catch (e) {
         dispatch(redirectToRoute(AppRoutes.NOT_FOUND));
       } finally {
@@ -94,9 +93,12 @@ export const changeFavoriteStatus = createAsyncThunk<
   }
 >(
   'favorite/changeFavoriteStatus',
-  async ({ inFavorite, offerId }, { dispatch, extra: api }) => {
-    await api.post(`${ApiRoutes.GET_FAVORITES}/${offerId}/${inFavorite ? 1 : 0}`);
+  async ({ inFavorite, offerId }, { dispatch, extra: api, getState }) => {
+    await api.post(`${ApiRoutes.GET_FAVORITES}/${offerId}/${inFavorite ? 0 : 1}`);
     dispatch(fetchFavorites());
     dispatch(fetchOffers());
+    if (getState().offer.selectedOffer){
+      await dispatch(fetchOfferById(offerId));
+    }
   },
 );

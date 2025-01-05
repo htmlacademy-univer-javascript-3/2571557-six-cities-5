@@ -1,26 +1,38 @@
+import { memo } from 'react';
 import { IOffer } from '../../model';
-import { useAppDispatch } from '../../store';
-import { changeFavoriteStatus } from '../../store/offer/action';
+import { useAppDispatch, useAppSelector } from '../../store';
+import { changeFavoriteStatus, changeStatusOfCurrFavorite } from '../../store/offer/action';
+import { nearOffersSelector } from '../../store/offer/selectors';
+import { ParamBlockType, PARAMS_BY_BLOCK_NAME } from '../offers/const';
 
 export interface IFavoriteProps {
   offer: IOffer;
+  isChangeOnlyInList: boolean;
+  block: ParamBlockType;
 }
 
-export const Favorite = ({ offer }: IFavoriteProps) => {
+const FavoriteImpl = ({ offer, block = 'offer__bookmark', isChangeOnlyInList = false }: IFavoriteProps) => {
   const dispatch = useAppDispatch();
-  const clickHandler = () => {
+  const nearOffers = useAppSelector(nearOffersSelector);
+  const handleBtnClick = () => {
+    if (isChangeOnlyInList && nearOffers) {
+      const curNearOffer = nearOffers.find((el) => el.id === offer.id);
+      if(curNearOffer) {
+        dispatch(changeStatusOfCurrFavorite(curNearOffer));
+      }
+    }
+    
     dispatch(changeFavoriteStatus({ offerId: offer.id, inFavorite: offer.isFavorite }));
   };
   return (
     <button
-      className={`place-card__bookmark-button ${offer.isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
+      className={`button ${block}-button ${offer.isFavorite ? 'place-card__bookmark-button--active' : ''}`}
       type="button"
-      onClick={clickHandler}
+      onClick={handleBtnClick}
     >
       <svg
-        className="place-card__bookmark-icon"
-        width={18}
-        height={19}
+        className={`${block}-icon`}
+        {...PARAMS_BY_BLOCK_NAME[block]}
       >
         <use xlinkHref="#icon-bookmark" />
       </svg>
@@ -28,3 +40,5 @@ export const Favorite = ({ offer }: IFavoriteProps) => {
     </button>
   );
 };
+
+export const Favorite = memo(FavoriteImpl);

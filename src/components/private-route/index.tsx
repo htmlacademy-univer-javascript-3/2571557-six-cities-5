@@ -1,13 +1,14 @@
 import { Navigate } from 'react-router-dom';
-import { AuthState, AppRoutes } from '../../pages/routes';
+import { IUser } from '../../model';
+import { AppRoutes } from '../../pages/routes';
 
 interface PrivateRouteProps {
   children: JSX.Element;
-  auth: AuthState;
+  user: IUser | null;
 }
 
 export const PrivateRoute = (props: PrivateRouteProps) => {
-  const { children, auth } = props;
+  const { children, user } = props;
 
-  return auth === AuthState.AUTH ? children : <Navigate to={AppRoutes.NOT_FOUND} />;
+  return !!user ? children : <Navigate to={AppRoutes.NOT_FOUND} />;
 };

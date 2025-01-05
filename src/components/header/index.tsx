@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { memo } from 'react';
 
 import { IUser } from '../../model';
 import { useAppDispatch } from '../../store';
@@ -7,11 +8,10 @@ import { AppRoutes } from '../../pages';
 import { logout } from '../../store/user/action';
 
 export interface IHeaderProps {
-  isAuth: boolean;
-  user?: IUser;
+  user: IUser | null;
 }
 
-export const Header = ({ isAuth, user }: IHeaderProps) => {
+const HeaderImpl = ({ user }: IHeaderProps) => {
   const dispatch = useAppDispatch();
   return (
     <header className="header">
@@ -32,7 +32,7 @@ export const Header = ({ isAuth, user }: IHeaderProps) => {
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">
-              {isAuth && (
+              {!!user && (
                 <li className="header__nav-item user">
                   <Link
                     className="header__nav-link header__nav-link--profile"
@@ -40,7 +40,7 @@ export const Header = ({ isAuth, user }: IHeaderProps) => {
                   >
                     <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                     <span className="header__user-name user__name">
-                      {user?.email} Oliver.conner@gmail.com
+                      {user?.email}
                     </span>
                     <span className="header__favorite-count">3</span>
                   </Link>
@@ -48,7 +48,7 @@ export const Header = ({ isAuth, user }: IHeaderProps) => {
               )}
               <li className="header__nav-item">
                 {
-                  isAuth ? (
+                  !!user ? (
                     <span className="header__nav-link" style={{ cursor: 'pointer' }} onClick={(event) => {
                       event.preventDefault();
                       dispatch(logout());
@@ -71,3 +71,5 @@ export const Header = ({ isAuth, user }: IHeaderProps) => {
     </header>
   );
 };
+
+export const Header = memo(HeaderImpl);
