@@ -21,7 +21,7 @@ const FavoriteImpl = ({ offer, block = 'offer__bookmark', isChangeOnlyInList = f
         dispatch(changeStatusOfCurrFavorite(curNearOffer));
       }
     }
-    
+
     dispatch(changeFavoriteStatus({ offerId: offer.id, inFavorite: offer.isFavorite }));
   };
   return (

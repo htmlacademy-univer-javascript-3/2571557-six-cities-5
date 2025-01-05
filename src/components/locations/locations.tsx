@@ -6,7 +6,7 @@ import { changeCity } from '../../store/offer/action';
 
 export const Locations = () => {
   const dispatch = useAppDispatch();
-  const handleLocationItemClick = useCallback((city: CityName) => { 
+  const handleLocationItemClick = useCallback((city: CityName) => {
     dispatch(changeCity(city));
   },[dispatch]);
   return (

@@ -48,7 +48,7 @@ const HeaderImpl = ({ user }: IHeaderProps) => {
               )}
               <li className="header__nav-item">
                 {
-                  !!user ? (
+                  user ? (
                     <span className="header__nav-link" style={{ cursor: 'pointer' }} onClick={(event) => {
                       event.preventDefault();
                       dispatch(logout());

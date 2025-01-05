@@ -21,11 +21,11 @@ export const checkAuth = createAsyncThunk<void, undefined,
     async (_arg, { dispatch, extra: api }) => {
       try {
         const { data: user } = await api.get<IUser>(AppRoutes.LOGIN);
-        dispatch(changeAuthStatus(AuthState.KNOWN)); 
+        dispatch(changeAuthStatus(AuthState.KNOWN));
         dispatch(setUser(user));
         dispatch(fetchFavorites());
       } catch {
-        dispatch(changeAuthStatus(AuthState.KNOWN)); 
+        dispatch(changeAuthStatus(AuthState.KNOWN));
         dispatch(setUser(null));
         dispatch(redirectToRoute(AppRoutes.LOGIN));
       }

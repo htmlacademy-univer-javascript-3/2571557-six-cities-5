@@ -23,7 +23,7 @@ export const LoginPage = () => {
       );
     }
   }, [dispatch]);
-  if (!!user) {
+  if (user) {
     return <Navigate to={AppRoutes.MAIN} />;
   }
   return (
