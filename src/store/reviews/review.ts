@@ -19,7 +19,7 @@ export const reviewsReducer = createReducer(initialState, (builder)=>{
     if (Array.isArray(payload)) {
       const arrayForResolve = [...payload];
       arrayForResolve.sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1));
-      state.reviews = arrayForResolve.slice(0, 10);
+      state.reviews = arrayForResolve;
     }
   })
     .addCase(addReview.pending, (state) => {

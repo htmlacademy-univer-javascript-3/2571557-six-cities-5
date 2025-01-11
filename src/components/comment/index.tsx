@@ -29,7 +29,7 @@ export const Comment = ({ onSubmitCallback: onSubmit }: ICommentSubmitProps) => 
   }, [onSubmit, review]);
 
   useEffect(() => {
-    const isReviewValid = review.comment.length < 50 || review.comment.length > 300 || review.rating === 0;
+    const isReviewValid = 50 <= review.comment.length && review.comment.length <= 300 && review.rating !== 0;
 
     if (isValid !== isReviewValid) {
       setValid(isReviewValid);

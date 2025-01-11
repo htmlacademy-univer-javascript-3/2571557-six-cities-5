@@ -1,31 +1,50 @@
-import { Link, Navigate } from 'react-router-dom';
-import { AppRoutes } from '../routes';
+import { Link } from 'react-router-dom';
 
-import { useCallback, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store';
-import { login } from '../../store/user/action';
+import { login, redirectToRoute } from '../../store/user/action';
 import { userSelector } from '../../store/user/selectors';
 
+import { useState } from 'react';
+import { useEffect } from 'react';
+
+import { AppRoutes } from '../routes';
+import { validatePassword } from '../../utils';
+
 export const LoginPage = () => {
-  const formRef = useRef<HTMLFormElement | null>(null);
-  const user = useAppSelector(userSelector);
   const dispatch = useAppDispatch();
-  const handleFormSubmit = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    event.preventDefault();
-    if (formRef && formRef.current) {
-      const formData = Object.fromEntries(new FormData(formRef.current));
-      const authData = {
-        email: formData['email'].toString(),
-        password: formData['password'].toString()
-      };
-      dispatch(
-        login(authData)
-      );
+  const user = useAppSelector(userSelector);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [submitDisabled, setSubmitDisabled] = useState(true);
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  useEffect(() => {
+    if (validatePassword(password)) {
+      setSubmitDisabled(false);
+    } else {
+      setSubmitDisabled(true);
     }
-  }, [dispatch]);
-  if (user) {
-    return <Navigate to={AppRoutes.MAIN} />;
-  }
+  }, [password]);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    dispatch(login({ email: email, password: password }));
+  };
+
+  useEffect(() => {
+    if (user) {
+      dispatch(redirectToRoute(AppRoutes.MAIN));
+    }
+  }, [dispatch, user]);
+
   return (
     <div className="page page--gray page--login">
       <header className="header">
@@ -51,7 +70,7 @@ export const LoginPage = () => {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post" ref={formRef}>
+            <form className="login__form form" action="#" method="post" onSubmit={handleSubmit}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input
@@ -59,7 +78,8 @@ export const LoginPage = () => {
                   type="email"
                   name="email"
                   placeholder="Email"
-                  required={false}
+                  onChange={handleEmailChange}
+                  required
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
@@ -69,11 +89,15 @@ export const LoginPage = () => {
                   type="password"
                   name="password"
                   placeholder="Password"
-                  pattern="^(?=.*[a-zA-Z])(?=.*\d).+$"
-                  required={false}
+                  onChange={handlePasswordChange}
+                  required
                 />
               </div>
-              <button className="login__submit form__submit button" type="submit" onClick={handleFormSubmit}>
+              <button
+                className="login__submit form__submit button"
+                type="submit"
+                disabled={submitDisabled}
+              >
                 Sign in
               </button>
             </form>

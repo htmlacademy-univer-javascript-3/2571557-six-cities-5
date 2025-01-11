@@ -3,8 +3,8 @@ import leaflet from 'leaflet';
 import { ICity } from '../model';
 
 export const useMap = (mapRef: React.MutableRefObject<null>, city: ICity) => {
-  const [map, setMap] = useState<null | leaflet.Map>(null);
   const isRenderedRef = useRef(false);
+  const [map, setMap] = useState<null | leaflet.Map>(null);
 
   useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
@@ -27,8 +27,10 @@ export const useMap = (mapRef: React.MutableRefObject<null>, city: ICity) => {
 
       setMap(instance);
       isRenderedRef.current = true;
+    } else if (isRenderedRef.current) {
+      map?.panTo(new leaflet.LatLng(city.location.latitude, city.location.longitude));
     }
-  }, [mapRef, city]);
+  }, [mapRef, city, map]);
 
   return map;
 };

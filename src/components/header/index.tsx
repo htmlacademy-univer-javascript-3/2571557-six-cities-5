@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom';
 import { memo } from 'react';
 
 import { IUser } from '../../model';
-import { useAppDispatch } from '../../store';
+import { useAppDispatch, useAppSelector } from '../../store';
 import { AppRoutes } from '../../pages';
+import { favoritesSelector } from '../../store/offer/selectors';
 
 import { logout } from '../../store/user/action';
 
@@ -13,6 +14,10 @@ export interface IHeaderProps {
 
 const HeaderImpl = ({ user }: IHeaderProps) => {
   const dispatch = useAppDispatch();
+  const favoriteOffers = useAppSelector(favoritesSelector);
+  const handleLogout: React.MouseEventHandler<HTMLAnchorElement> = () => {
+    dispatch(logout());
+  };
   return (
     <header className="header">
       <div className="container">
@@ -42,17 +47,17 @@ const HeaderImpl = ({ user }: IHeaderProps) => {
                     <span className="header__user-name user__name">
                       {user?.email}
                     </span>
-                    <span className="header__favorite-count">3</span>
+                    <span className="header__favorite-count">{favoriteOffers.length}</span>
                   </Link>
                 </li>
               )}
               <li className="header__nav-item">
                 {
                   user ? (
-                    <span className="header__nav-link" style={{ cursor: 'pointer' }} onClick={(event) => {
-                      event.preventDefault();
-                      dispatch(logout());
-                    }}
+                    <span
+                      className="header__nav-link"
+                      style={{ cursor: 'pointer' }}
+                      onClick={handleLogout}
                     >
                       <span className="header__signout">Log Out</span>
                     </span>

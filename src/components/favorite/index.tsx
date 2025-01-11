@@ -4,6 +4,10 @@ import { useAppDispatch, useAppSelector } from '../../store';
 import { changeFavoriteStatus, changeStatusOfCurrFavorite } from '../../store/offer/action';
 import { nearOffersSelector } from '../../store/offer/selectors';
 import { ParamBlockType, PARAMS_BY_BLOCK_NAME } from '../offers/const';
+import { userSelector } from '../../store/user/selectors';
+import { AppRoutes } from '../../pages';
+
+import { redirectToRoute } from '../../store/user/action';
 
 export interface IFavoriteProps {
   offer: IOffer;
@@ -14,7 +18,13 @@ export interface IFavoriteProps {
 const FavoriteImpl = ({ offer, block = 'offer__bookmark', isChangeOnlyInList = false }: IFavoriteProps) => {
   const dispatch = useAppDispatch();
   const nearOffers = useAppSelector(nearOffersSelector);
+  const user = useAppSelector(userSelector);
   const handleBtnClick = () => {
+    if (!user) {
+      dispatch(redirectToRoute(AppRoutes.LOGIN));
+      return;
+    }
+
     if (isChangeOnlyInList && nearOffers) {
       const curNearOffer = nearOffers.find((el) => el.id === offer.id);
       if(curNearOffer) {
