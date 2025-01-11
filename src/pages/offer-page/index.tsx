@@ -21,6 +21,7 @@ import { fetchReviews } from '../../store/reviews/action';
 import { fetchNearOffersById } from '../../store/offer/action';
 
 const MAX_IMAGES_COUNT = 6;
+const MAX_REVIEWS_ON_PAGE = 10;
 
 export const OfferPage = () => {
   const { id: offerId } = useParams();
@@ -54,7 +55,7 @@ export const OfferPage = () => {
               <h2 className="reviews__title">
                 Reviews · <span className="reviews__amount">{reviews.length}</span>
               </h2>
-              <Review reviews={reviews} />
+              <Review reviews={reviews.slice(0, MAX_REVIEWS_ON_PAGE)} />
               { !!user && <Comment onSubmitCallback={handleCommentSubmit}/> }
             </section>
           </OfferDetails>

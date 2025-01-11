@@ -27,7 +27,6 @@ export const checkAuth = createAsyncThunk<void, undefined,
       } catch {
         dispatch(changeAuthStatus(AuthState.KNOWN));
         dispatch(setUser(null));
-        dispatch(redirectToRoute(AppRoutes.LOGIN));
       }
     },
   );
@@ -62,6 +61,5 @@ export const logout = createAsyncThunk<void, undefined, {
     dropToken();
     dispatch(setUser(null));
     await dispatch(fetchOffers());
-    dispatch(redirectToRoute(AppRoutes.LOGIN));
   },
 );

@@ -10,3 +10,13 @@ export const dateToMonthWordYear = (date: Date) =>
     year: 'numeric',
     month: 'long'
   }).format(date);
+
+export const validatePassword = (password: string) => {
+  const hasLetter = new RegExp(/[a-zA-Z]+/g);
+  const hasDigit = new RegExp(/[0-9]+/g);
+
+  if (password.match(hasLetter) && password.match(hasDigit)) {
+    return true;
+  }
+  return false;
+};
