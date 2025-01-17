@@ -4,7 +4,7 @@ import { AppDispatch, RootState } from '../type';
 import { AxiosInstance } from 'axios';
 
 import { IOffer } from '../../model';
-   
+     
 import { redirectToRoute } from '../user/action';
 import { CityName } from '../../model';
 import { AppRoutes } from '../../pages';
